@@ -1,23 +1,28 @@
-import logo from './logo.svg';
+
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './Components/Screens/Login/Login';
+import Dashboard from './Components/Screens/Dashboard/Dashboard';
+import UsersList from './Components/Screens/UsersList/UsersList';
+import SubscriptionPlans from './Components/Screens/SubscriptionPlans/SubscriptionPlans';
+import AddTemplate from './Components/Screens/Dashboard/AddTemplate';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+    <div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/add-template" element={<AddTemplate />} />
+          <Route path="/users" element={<UsersList />} />
+          <Route path="/plans" element={<SubscriptionPlans />} />
+
+
+        </Routes>
+      </Router>
     </div>
   );
 }
