@@ -2,15 +2,17 @@ import DropdownComponent from "../../CustomComponents/DropdownComponent/Dropdown
 import PrimaryButtonComponent from "../../CustomComponents/PrimaryButtonComponent/PrimaryButtonComponent";
 import { apiCall } from "../../Utils/AxiosUtils";
 import DashboardSideBar from "../DashboardSideBar/DashboardSideBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 function AddTemplate() {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedSubcategory, setSelectedSubcategory] = useState("");
     const [selectedPlan, setSelectedPlan] = useState("");
     const [templateFileBase64, setTemplateFileBase64] = useState("");
-    // const [templateFile, setTemplateFile] = useState(null);
-    const categoryOptions = ["Engagement", "Birthday", "Wishes"];
-    const subcategoryOptions = ["Invitation", "Party", "Diwali"];
+    const [categoriesData, setCategoriesData] = useState([]);
+    const [subcategoryOptions, setSubcategoryOptions] = useState([]);
+    // const categoryOptions = ["Engagement", "Birthday", "Wishes"];
+    // const subcategoryOptions = ["Invitation", "Party", "Diwali"];
+
     const planOptions = ["Free", "Paid"];
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -22,7 +24,10 @@ function AddTemplate() {
         reader.readAsDataURL(file);
     };
 
-
+    useEffect(() => {
+        getCategoriesData();
+        getSubcategoriesData();
+    }, []);
     const addTemplatesCallback = (response) => {
         console.log('response: ', response);
         if (response.status === 200) {
@@ -50,7 +55,44 @@ function AddTemplate() {
             callback: addTemplatesCallback,
         });
     }
+    const getCategoriesData = () => {
+        let url = "https://image-edit-backend.vercel.app/api/categories";
+        apiCall({
+            method: 'GET',
+            url: url,
+            data: {},
+            callback: getCategoriesCallback,
+        });
+    };
+    const getCategoriesCallback = (response) => {
+        console.log('response: ', response);
+        if (response.status === 200) {
+            const categories = response.data.map(category => category.name);
+            setCategoriesData(categories);
+            console.log('categories: ', categories);
+        } else {
+            console.log("Error fetching categories");
+        }
+    };
+    const getSubcategoriesData = () => {
+        let url = "https://image-edit-backend.vercel.app/api/sub-categories";
+        apiCall({
+            method: 'GET',
+            url: url,
+            data: {},
+            callback: getSubcategoriesCallback,
+        });
+    };
 
+    const getSubcategoriesCallback = (response) => {
+        if (response.status === 200) {
+            const subcategories = response.data.map(subcategory => subcategory.name);
+            setSubcategoryOptions(subcategories);
+               console.log('subcategories: ', subcategories);
+        } else {
+            console.log("Error fetching subcategories");
+        }
+    };
     return (
         <div className="min-h-screen bg-gray-100 flex">
             <DashboardSideBar />
@@ -76,7 +118,7 @@ function AddTemplate() {
                     <div className="flex flex-col">
                         <DropdownComponent
                             label="Category"
-                            options={categoryOptions}
+                            options={categoriesData}
                             value={selectedCategory}
                             onChange={setSelectedCategory}
                         />

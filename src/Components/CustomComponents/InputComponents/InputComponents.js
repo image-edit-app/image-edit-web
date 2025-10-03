@@ -1,11 +1,12 @@
-function InputComponents({ type, placeholder, value, onChange }) {
+function InputComponents({ type, placeholder, value, onChange, inputClassName,name }) {
     return (
         <input
             type={type}
             placeholder={placeholder}
             value={value}
             onChange={onChange}
-            className="w-full px-6 py-4 mb-5 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            name={name}
+            className={`border px-4 py-3 rounded ${inputClassName}`}
         />
     );
 }

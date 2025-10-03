@@ -23,6 +23,11 @@ function DashboardSideBar() {
                 buttonClassName="bg-white text-gray-800 hover:bg-gray-300"
                 onClick={() => navigate("/plans")}
             />
+            <PrimaryButtonComponent
+                label="Categories"
+                buttonClassName="bg-white text-gray-800 hover:bg-gray-300"
+                onClick={() => navigate("/Categories")}
+            />
         </div>
     );
 }

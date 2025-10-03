@@ -19,17 +19,17 @@ export default function Dashboard() {
         }
     };
 
-    const getTemplateData = (category, subcategory) => {
-        let url = "https://image-edit-backend.vercel.app/api/templates"
-        if (category) {
-            url += `&Category=${category}`
-        } if (subcategory) {
-            url += `subcategory=${subcategory}`
-        }
+    const getTemplateData = () => {
+        // let url = "https://image-edit-backend.vercel.app/api/templates"
+        // if (category) {
+        //     url += `&Category=${category}`
+        // } if (subcategory) {
+        //     url += `subcategory=${subcategory}`
+        // }
         apiCall({
             method: "GET",
-            // url: "https://image-edit-backend.vercel.app/api/templates",
-            url: url,
+            url: "https://image-edit-backend.vercel.app/api/templates",
+            // url: url,
             data: {},
             callback: getTemplatesCallback,
         });
@@ -58,18 +58,20 @@ export default function Dashboard() {
                     </div>
                 </div>
                 <div className="mb-6">
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="flex items-center gap-4 mb-5">
                         <InputComponents
                             type="text"
                             placeholder="Enter Category"
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
+                            inputClassName="w-[20%]"
                         />
                         <InputComponents
                             type="text"
                             placeholder="Enter Subcategory"
                             value={subcategory}
                             onChange={(e) => setSubcategory(e.target.value)}
+                            inputClassName="w-[20%]"
                         />
                     </div>
                 </div>
