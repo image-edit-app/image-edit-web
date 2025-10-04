@@ -22,10 +22,12 @@ function Login() {
 
                 <InputComponents
                     type="text"
-                    placeholder="Mobile No" />
+                    placeholder="Mobile No"
+                    inputClassName="w-full" />
                 <InputComponents
                     type="text"
-                    placeholder="Password" />
+                    placeholder="Password"
+                    inputClassName="w-full mt-4 mb-4" />
 
                 <PrimaryButtonComponent
                     label="Log In"
