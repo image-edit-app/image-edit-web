@@ -10,9 +10,6 @@ function AddTemplate() {
     const [templateFileBase64, setTemplateFileBase64] = useState("");
     const [categoriesData, setCategoriesData] = useState([]);
     const [subcategoryOptions, setSubcategoryOptions] = useState([]);
-    // const categoryOptions = ["Engagement", "Birthday", "Wishes"];
-    // const subcategoryOptions = ["Invitation", "Party", "Diwali"];
-
     const planOptions = ["Free", "Paid"];
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -88,7 +85,7 @@ function AddTemplate() {
         if (response.status === 200) {
             const subcategories = response.data.map(subcategory => subcategory.name);
             setSubcategoryOptions(subcategories);
-               console.log('subcategories: ', subcategories);
+            console.log('subcategories: ', subcategories);
         } else {
             console.log("Error fetching subcategories");
         }
@@ -113,6 +110,7 @@ function AddTemplate() {
                             options={planOptions}
                             value={selectedPlan}
                             onChange={setSelectedPlan}
+                            dropdownClassName="w-full"
                         />
                     </div>
                     <div className="flex flex-col">
@@ -121,6 +119,7 @@ function AddTemplate() {
                             options={categoriesData}
                             value={selectedCategory}
                             onChange={setSelectedCategory}
+                            dropdownClassName="w-full"
                         />
                     </div>
                     <div className="flex flex-col">
@@ -129,6 +128,7 @@ function AddTemplate() {
                             options={subcategoryOptions}
                             value={selectedSubcategory}
                             onChange={setSelectedSubcategory}
+                            dropdownClassName="w-full"
                         />
                     </div>
                     <div className="text-center">

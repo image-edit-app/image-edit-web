@@ -1,11 +1,35 @@
 import { useNavigate } from "react-router-dom";
 import InputComponents from "../../CustomComponents/InputComponents/InputComponents";
 import PrimaryButtonComponent from "../../CustomComponents/PrimaryButtonComponent/PrimaryButtonComponent";
+import { apiCall } from "../../Utils/AxiosUtils";
+import { useState } from "react";
 
 function Login() {
     const navigate = useNavigate();
+    const [loginFormData, setLoginFormData] = useState({
+        contact_number: "",
+        password: ""
+    });
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setLoginFormData({ ...loginFormData, [name]: value });
+    };
+
+    const loginCallback = (response) => {
+        if (response.status === 200) {
+            navigate("/dashboard");
+        } else {
+            console.log("login failed");
+        }
+    };
+
     const handleLoginClick = () => {
-        navigate("/dashboard");
+        apiCall({
+            method: "POST",
+            url: "https://image-edit-backend.vercel.app/api/users/login",
+            data: loginFormData,
+            callback: loginCallback
+        });
     };
     return (
         <div
@@ -22,12 +46,18 @@ function Login() {
 
                 <InputComponents
                     type="text"
+                    name="contact_number"
                     placeholder="Mobile No"
-                    inputClassName="w-full" />
+                    inputClassName="w-full"
+                    value={loginFormData.contact_number}
+                    onChange={handleInputChange} />
                 <InputComponents
                     type="text"
+                    name="password"
                     placeholder="Password"
-                    inputClassName="w-full mt-4 mb-4" />
+                    inputClassName="w-full mt-4 mb-4"
+                    value={loginFormData.password}
+                    onChange={handleInputChange} />
 
                 <PrimaryButtonComponent
                     label="Log In"

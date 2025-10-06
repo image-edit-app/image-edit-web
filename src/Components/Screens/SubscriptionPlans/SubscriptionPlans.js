@@ -1,3 +1,4 @@
+import HeaderComponents from "../../CustomComponents/HeaderComponents/HeaderComponents";
 import PrimaryButtonComponent from "../../CustomComponents/PrimaryButtonComponent/PrimaryButtonComponent";
 import DashboardSideBar from "../DashboardSideBar/DashboardSideBar";
 
@@ -43,16 +44,12 @@ function SubscriptionPlans() {
         <div className="min-h-screen bg-gray-100 flex">
             <DashboardSideBar />
             <div className="w-4/5 p-8">
-                <div className="flex justify-between items-center mb-6">
-                    <div className="text-2xl font-bold">Subscription Plans</div>
-                    <div>
-                        <PrimaryButtonComponent
-                            label="Add New Plan"
-                            buttonClassName="bg-black text-white px-4 py-2 text-sm rounded-md w-full mx-2"
-                        />
-                    </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <HeaderComponents
+                    name="Subscription Plans"
+                    label="Add New Plan"
+                    buttonClassName="bg-black text-white px-4 py-2 text-sm rounded-md"
+                />
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-4">
                     {plans.map((plan, index) => (
                         <div
                             key={index}

@@ -39,7 +39,7 @@ function AddCategories() {
     return (
         <div className="min-h-screen bg-gray-100 flex">
             <DashboardSideBar />
-            <div className="w-full p-10">
+            <div className="w-4/5 p-6">
                 <div className="mb-4">
                     <InputComponents
                         type="text"
@@ -47,14 +47,13 @@ function AddCategories() {
                         placeholder="Enter Category Name"
                         value={categoryData.name}
                         onChange={handleInputChange}
-                        className="border px-4 py-3 rounded w-[300px]"
-                    />
+                        inputClassName="border px-2 py-2 rounded w-[300px]" />
                 </div>
                 <div>
                     <PrimaryButtonComponent
                         label="Submit"
                         onClick={addCategory}
-                        buttonClassName="bg-black text-white px-4 py-2 rounded-md w-[180px]"
+                        buttonClassName="w-[20%] bg-black text-white px-3 py-2 rounded-md"
                     />
                 </div>
             </div>

@@ -2,21 +2,21 @@ import React, { useEffect, useState } from "react";
 import DashboardSideBar from "../DashboardSideBar/DashboardSideBar";
 import TableComponent from "../../CustomComponents/TableComponent/TableComponent";
 import { apiCall } from "../../Utils/AxiosUtils";
+import HeaderComponents from "../../CustomComponents/HeaderComponents/HeaderComponents";
 
 function UsersList() {
     const [users, setUsers] = useState([]);
     const headers = [
         "profile",
         "name",
-        "email",
+        // "joinedDate",
+        "contact Number",
+        // "firmName",
+        // "gender",
+        // "dob",
+        // "address"
+        "role",
         "plan",
-        "joinedDate",
-        "templatesUsed",
-        "contactNumber",
-        "firmName",
-        "gender",
-        "dob",
-        "address"
     ];
 
     // const users = [
@@ -52,14 +52,12 @@ function UsersList() {
             const usersFormattedRows = response.data.map((user) => ({
                 profile: user.role,
                 name: user.name,
-                email: user.email,
                 plan: user.subscription_details,
-                templatesUsed: user.templatesUsed, 
-                contactNumber: user.contact_number,
+                contactNumber: user.contactnumber,
                 firmName: user.firm_name,
                 gender: user.gender,
                 address: user.address,
-                id: user.id 
+                id: user.id
             }));
             setUsers(usersFormattedRows);
         } else {
@@ -82,7 +80,10 @@ function UsersList() {
         <div className="min-h-screen bg-gray-100 flex">
             <DashboardSideBar />
             <div className="w-4/5 p-8">
-                <h2 className="text-2xl font-bold mb-6">Users List</h2>
+                <HeaderComponents
+                    name="Users List"
+                />
+
                 <TableComponent
                     headers={headers}
                     data={users}

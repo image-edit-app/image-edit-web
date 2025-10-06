@@ -6,6 +6,8 @@ import SubscriptionPlans from './Components/Screens/SubscriptionPlans/Subscripti
 import AddTemplate from './Components/Screens/Dashboard/AddTemplate';
 import Categories from './Components/Screens/Categories/Categories';
 import AddCategories from './Components/Screens/Categories/AddCategories';
+import SubCategories from './Components/Screens/Categories/SubCategories';
+import AddSubCategories from './Components/Screens/Categories/AddSubCategories';
 
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
           <Route path="/plans" element={<SubscriptionPlans />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/add-category" element={<AddCategories />} />
+          <Route path="/subcategories" element={<SubCategories/>} />
+          <Route path="/add-subcategory" element={<AddSubCategories />} />
 
 
         </Routes>

@@ -1,7 +1,8 @@
-function InputComponents({ type, placeholder, value, onChange, inputClassName,name }) {
+function InputComponents({ type,label, placeholder, value, onChange, inputClassName,name }) {
     return (
         <input
             type={type}
+            label={label}
             placeholder={placeholder}
             value={value}
             onChange={onChange}

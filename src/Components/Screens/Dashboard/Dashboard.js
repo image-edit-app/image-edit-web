@@ -5,6 +5,7 @@ import PrimaryButtonComponent from "../../CustomComponents/PrimaryButtonComponen
 import { useNavigate } from "react-router-dom";
 import { apiCall } from "../../Utils/AxiosUtils";
 import InputComponents from "../../CustomComponents/InputComponents/InputComponents";
+import HeaderComponents from "../../CustomComponents/HeaderComponents/HeaderComponents";
 export default function Dashboard() {
     const [category, setCategory] = useState("");
     const [subcategory, setSubcategory] = useState("");
@@ -47,16 +48,13 @@ export default function Dashboard() {
             <DashboardSideBar />
 
             <div className="w-4/5 p-8">
-                <div className="flex justify-between items-center mb-6">
-                    <div className="text-3xl font-bold">All Templates</div>
-                    <div>
-                        <PrimaryButtonComponent
-                            label="Add New Template"
-                            buttonClassName="bg-black text-white px-4 py-2 text-sm rounded-md"
-                            onClick={handleAddTemplateClick}
-                        />
-                    </div>
-                </div>
+                <HeaderComponents
+                    name="All Templates"
+                    label="Add New Template"
+                    onClick={handleAddTemplateClick}
+                    buttonClassName="bg-black text-white px-4 py-2 text-sm rounded-md"
+                />
+
                 <div className="mb-6">
                     <div className="flex items-center gap-4 mb-5">
                         <InputComponents

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function DropdownComponent({ label, options = [], value = [], onChange }) {
+function DropdownComponent({ label, options = [], value = [], onChange, dropdownClassName = "" }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleDropdown = () => {
@@ -13,10 +13,11 @@ function DropdownComponent({ label, options = [], value = [], onChange }) {
         } else {
             onChange([...value, option]);
         }
+        setIsOpen(false);
     };
 
     return (
-        <div className="relative w-full">
+        <div className={`relative ${dropdownClassName}`}>
             <label className="font-semibold mb-1 block">{label}</label>
             <div
                 className="mt-2 p-2 border border-gray-300 rounded bg-white cursor-pointer"
@@ -39,9 +40,11 @@ function DropdownComponent({ label, options = [], value = [], onChange }) {
                             />
                             {option}
                         </label>
+
                     ))}
                 </div>
             )}
+
         </div>
     );
 }
