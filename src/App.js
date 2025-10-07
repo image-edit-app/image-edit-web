@@ -8,6 +8,7 @@ import Categories from './Components/Screens/Categories/Categories';
 import AddCategories from './Components/Screens/Categories/AddCategories';
 import SubCategories from './Components/Screens/Categories/SubCategories';
 import AddSubCategories from './Components/Screens/Categories/AddSubCategories';
+import AddNewPlan from './Components/Screens/SubscriptionPlans/AddNewPlan';
 
 
 function App() {
@@ -21,10 +22,12 @@ function App() {
           <Route path="/add-template" element={<AddTemplate />} />
           <Route path="/users" element={<UsersList />} />
           <Route path="/plans" element={<SubscriptionPlans />} />
+          <Route path="/add-plan" element={<AddNewPlan />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/add-category" element={<AddCategories />} />
-          <Route path="/subcategories" element={<SubCategories/>} />
+          <Route path="/subcategories" element={<SubCategories />} />
           <Route path="/add-subcategory" element={<AddSubCategories />} />
+
 
 
         </Routes>

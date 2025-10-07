@@ -11,7 +11,9 @@ export default function Dashboard() {
     const [subcategory, setSubcategory] = useState("");
     const [templates, setTemplates] = useState([]);
     const navigate = useNavigate();
-
+    useEffect(() => {
+        getTemplateData({});
+    }, []);
     const getTemplatesCallback = (response) => {
         if (response.status === 200) {
             setTemplates(response.data);
@@ -20,25 +22,28 @@ export default function Dashboard() {
         }
     };
 
-    const getTemplateData = () => {
-        // let url = "https://image-edit-backend.vercel.app/api/templates"
-        // if (category) {
-        //     url += `&Category=${category}`
-        // } if (subcategory) {
-        //     url += `subcategory=${subcategory}`
-        // }
+    const getTemplateData = ({ category }) => {
+        let url = "https://image-edit-backend.vercel.app/api/templates"
+        if (category) {
+            url += `&categories=${category}`
+        } if (subcategory) {
+            url += `subcategory=${subcategory}`
+        }
         apiCall({
             method: "GET",
-            url: "https://image-edit-backend.vercel.app/api/templates",
-            // url: url,
+            // url: "https://image-edit-backend.vercel.app/api/templates",
+            url: url,
             data: {},
             callback: getTemplatesCallback,
         });
     };
-
-    useEffect(() => {
-        getTemplateData();
-    }, []);
+    const handleSearchFilter = () => {
+        getTemplateData({ category });
+    }
+    const handleResetFilter = () => {
+        setCategory('');
+        getTemplateData({});
+    }
     const handleAddTemplateClick = () => {
         navigate("/add-template");
     };
@@ -70,6 +75,18 @@ export default function Dashboard() {
                             value={subcategory}
                             onChange={(e) => setSubcategory(e.target.value)}
                             inputClassName="w-[20%]"
+                        />
+                        <PrimaryButtonComponent
+                            label="Search"
+                            onClick={handleSearchFilter}
+                            buttonClassName="bg-black w-[20%] text-white"
+
+                        />
+                        <PrimaryButtonComponent
+                            label="Reset"
+                            onClick={handleResetFilter}
+                            buttonClassName="bg-black w-[20%] text-white"
+
                         />
                     </div>
                 </div>
