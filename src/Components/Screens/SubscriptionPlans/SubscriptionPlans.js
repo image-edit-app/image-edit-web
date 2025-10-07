@@ -26,7 +26,6 @@ function SubscriptionPlans() {
             callback: getPlansCallback,
         });
     };
-
     useEffect(() => {
         getPlans();
     }, []);
@@ -64,6 +63,7 @@ function SubscriptionPlans() {
 
                             <PrimaryButtonComponent
                                 label="Edit"
+                                onClick={() => navigate(`/add-plan/${plan._id}`)}
                                 buttonClassName="bg-black text-white px-4 py-2 text-sm rounded hover:bg-gray-800 mt-2"
                             />
                         </div>

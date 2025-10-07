@@ -1,14 +1,14 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import InputComponents from "../../CustomComponents/InputComponents/InputComponents";
 import PrimaryButtonComponent from "../../CustomComponents/PrimaryButtonComponent/PrimaryButtonComponent";
 import DashboardSideBar from "../DashboardSideBar/DashboardSideBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { apiCall } from "../../Utils/AxiosUtils";
-import DropdownComponent from "../../CustomComponents/DropdownComponent/DropdownComponent";
 import CustomDropdownComponent from "../../CustomComponents/CustomDropdownComponent/CustomDropdownComponent";
 
 function AddNewPlan() {
     const navigate = useNavigate();
+    const { plan_id } = useParams();
     const statusOptions = ["Active", "Inactive"];
     const [subscriptionPlan, setSubscriptionPlan] = useState({
         name: "",
@@ -17,10 +17,36 @@ function AddNewPlan() {
         description: "",
         status: "",
     });
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setSubscriptionPlan({ ...subscriptionPlan, [name]: value });
+    };
+    useEffect(() => {
+        if (plan_id) {
+            getSinglePlan();
+        }
+    }, [plan_id]);
+    const getSinglePlan = () => {
+        apiCall({
+            method: "GET",
+            url: `https://image-edit-backend.vercel.app/api/subscription-plans/${plan_id}`,
+            data: {},
+            callback: getSinglePlanCallback,
+        });
+    };
+    const getSinglePlanCallback = (response) => {
+        if (response.status === 200) {
+            const plan = response.data;
+            setSubscriptionPlan({
+                name: plan.name || "",
+                price: plan.price || "",
+                duration: plan.duration || "",
+                description: plan.description || "",
+                status: plan.status || "",
+            });
+        } else {
+            console.log("Failed to fetch plan details");
+        }
     };
     const addPlanCallback = (response) => {
         if (response.status === 200) {
@@ -37,8 +63,7 @@ function AddNewPlan() {
             console.log("Failed to add plan");
         }
     };
-
-    const handleSubmit = () => {
+    const addNewPlan = () => {
         apiCall({
             method: "POST",
             url: "https://image-edit-backend.vercel.app/api/subscription-plans",
@@ -46,12 +71,39 @@ function AddNewPlan() {
             callback: addPlanCallback,
         });
     };
-
+    const updatePlan = () => {
+        apiCall({
+            method: "PUT",
+            url: `https://image-edit-backend.vercel.app/api/subscription-plans/${plan_id}`,
+            data: subscriptionPlan,
+            callback: updatePlanCallback,
+        });
+    };
+    const updatePlanCallback = (response) => {
+        if (response.status === 200) {
+            console.log("Plan updated successfully");
+            navigate("/plans");
+        } else {
+            console.log("Failed to update plan");
+        }
+    };
+    const handleSubmit = () => {
+        if (plan_id) {
+            updatePlan();
+            // Edit plan
+        } else {
+            addNewPlan();
+            // Add plan
+        }
+    };
     return (
         <div className="min-h-screen bg-gray-100 flex">
             <DashboardSideBar />
             <div className="p-8 w-full max-w-3xl mx-auto">
                 <div className="bg-white p-6 rounded-lg shadow-md space-y-6">
+                    <h2 className="text-xl font-bold mb-4">
+                        {plan_id ? "Edit Subscription Plan" : "Add New Subscription Plan"}
+                    </h2>
                     <div className="flex flex-col">
                         <InputComponents
                             name="name"

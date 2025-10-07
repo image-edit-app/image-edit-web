@@ -22,7 +22,8 @@ function App() {
           <Route path="/add-template" element={<AddTemplate />} />
           <Route path="/users" element={<UsersList />} />
           <Route path="/plans" element={<SubscriptionPlans />} />
-          <Route path="/add-plan" element={<AddNewPlan />} />
+          {/* <Route path="/add-plan" element={<AddNewPlan />} /> */}
+          <Route path="/add-plan/:plan_id?" element={<AddNewPlan />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/add-category" element={<AddCategories />} />
           <Route path="/subcategories" element={<SubCategories />} />
