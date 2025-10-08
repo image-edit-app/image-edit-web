@@ -2,12 +2,13 @@ import { useNavigate } from "react-router-dom";
 import PrimaryButtonComponent from "../../CustomComponents/PrimaryButtonComponent/PrimaryButtonComponent";
 import DashboardSideBar from "../DashboardSideBar/DashboardSideBar";
 import TableComponent from "../../CustomComponents/TableComponent/TableComponent";
-import { apiCall } from "../../Utils/AxiosUtils";
+import { apiCall, Spinner } from "../../Utils/AxiosUtils";
 import { useEffect, useState } from "react";
 import HeaderComponents from "../../CustomComponents/HeaderComponents/HeaderComponents";
 
 function Categories() {
     const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
     const headers = ["name"];
     const handleAddClick = () => {
@@ -25,6 +26,7 @@ function Categories() {
             method: "GET",
             url: "https://image-edit-backend.vercel.app/api/categories",
             callback: getCategoriesCallback,
+            setLoading: setLoading
         });
     };
 
@@ -34,11 +36,13 @@ function Categories() {
     return (
         <div className="min-h-screen bg-gray-100 flex">
             <DashboardSideBar />
+            {loading && <Spinner />}
             <div className="w-4/5 p-8">
                 <HeaderComponents
                     label="Add Category"
+                    name="Categories"
                     onClick={handleAddClick}
-                    buttonClassName="bg-black text-white px-4 py-2 text-sm rounded-md"
+                    buttonClassName="py-1 px-3 text-sm font-bold"
                 />
                 <div className="w-full p-8">
                     <TableComponent

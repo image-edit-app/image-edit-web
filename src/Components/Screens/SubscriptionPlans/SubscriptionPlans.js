@@ -3,11 +3,12 @@ import HeaderComponents from "../../CustomComponents/HeaderComponents/HeaderComp
 import PrimaryButtonComponent from "../../CustomComponents/PrimaryButtonComponent/PrimaryButtonComponent";
 import DashboardSideBar from "../DashboardSideBar/DashboardSideBar";
 import { useEffect, useState } from "react";
-import { apiCall } from "../../Utils/AxiosUtils";
+import { apiCall, Spinner } from "../../Utils/AxiosUtils";
 
 function SubscriptionPlans() {
     const navigate = useNavigate();
     const [plans, setPlans] = useState([]);
+    const [loading, setLoading] = useState(false);
     const handleAddPlanClick = () => {
         navigate("/add-plan");
     };
@@ -24,6 +25,7 @@ function SubscriptionPlans() {
             url: "https://image-edit-backend.vercel.app/api/subscription-plans",
             data: {},
             callback: getPlansCallback,
+            setLoading: setLoading
         });
     };
     useEffect(() => {
@@ -32,12 +34,13 @@ function SubscriptionPlans() {
     return (
         <div className="min-h-screen bg-gray-100 flex">
             <DashboardSideBar />
+            {loading && <Spinner />}
             <div className="w-4/5 p-8">
                 <HeaderComponents
                     name="Subscription Plans"
                     label="Add New Plan"
                     onClick={handleAddPlanClick}
-                    buttonClassName="bg-black text-white px-4 py-2 text-sm rounded-md"
+                    buttonClassName="py-1 px-3 text-sm font-bold"
                 />
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-4">
                     {plans.map((plan, index) => (

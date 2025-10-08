@@ -3,13 +3,14 @@ import DashboardSideBar from "../DashboardSideBar/DashboardSideBar";
 import CategoryCardComponent from "../../CustomComponents/CategoryCardComponent/CategoryCardComponent";
 import PrimaryButtonComponent from "../../CustomComponents/PrimaryButtonComponent/PrimaryButtonComponent";
 import { useNavigate } from "react-router-dom";
-import { apiCall } from "../../Utils/AxiosUtils";
+import { apiCall, Spinner } from "../../Utils/AxiosUtils";
 import InputComponents from "../../CustomComponents/InputComponents/InputComponents";
 import HeaderComponents from "../../CustomComponents/HeaderComponents/HeaderComponents";
 export default function Dashboard() {
     const [category, setCategory] = useState("");
     const [subcategory, setSubcategory] = useState("");
     const [templates, setTemplates] = useState([]);
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
     useEffect(() => {
         getTemplateData({});
@@ -35,6 +36,7 @@ export default function Dashboard() {
             url: url,
             data: {},
             callback: getTemplatesCallback,
+            setLoading: setLoading
         });
     };
     const handleSearchFilter = () => {
@@ -49,15 +51,14 @@ export default function Dashboard() {
     };
     return (
         <div className="min-h-screen bg-gray-100 flex">
-
             <DashboardSideBar />
-
+            {loading && <Spinner />}
             <div className="w-4/5 p-8">
                 <HeaderComponents
                     name="All Templates"
                     label="Add New Template"
                     onClick={handleAddTemplateClick}
-                    buttonClassName="bg-black text-white px-4 py-2 text-sm rounded-md"
+                    buttonClassName="py-1 px-3 text-sm font-bold"
                 />
 
                 <div className="mb-6">
@@ -67,25 +68,26 @@ export default function Dashboard() {
                             placeholder="Enter Category"
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
-                            inputClassName="w-[20%]"
+                            inputClassName="w-[190px]"
+
                         />
                         <InputComponents
                             type="text"
                             placeholder="Enter Subcategory"
                             value={subcategory}
                             onChange={(e) => setSubcategory(e.target.value)}
-                            inputClassName="w-[20%]"
+                            inputClassName="w-[190px] "
                         />
                         <PrimaryButtonComponent
                             label="Search"
                             onClick={handleSearchFilter}
-                            buttonClassName="bg-black w-[20%] text-white"
+                            buttonClassName="py-1 px-3 text-sm   font-bold"
 
                         />
                         <PrimaryButtonComponent
                             label="Reset"
                             onClick={handleResetFilter}
-                            buttonClassName="bg-black w-[20%] text-white"
+                            buttonClassName="py-1 px-3 text-sm font-bold"
 
                         />
                     </div>

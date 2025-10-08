@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import PrimaryButtonComponent from "../../CustomComponents/PrimaryButtonComponent/PrimaryButtonComponent";
 import DashboardSideBar from "../DashboardSideBar/DashboardSideBar";
-import { apiCall } from "../../Utils/AxiosUtils";
+import { apiCall, Spinner } from "../../Utils/AxiosUtils";
 import { useEffect, useState } from "react";
 import TableComponent from "../../CustomComponents/TableComponent/TableComponent";
 import HeaderComponents from "../../CustomComponents/HeaderComponents/HeaderComponents";
@@ -13,6 +13,7 @@ function SubCategories() {
     };
     const [subCategories, setSubCategories] = useState([]);
     const [categoriesData, setCategoriesData] = useState([]);
+    const [loading, setLoading] = useState(false)
 
     const headers = ["name", "category"];
     const getCategoriesData = () => {
@@ -50,6 +51,7 @@ function SubCategories() {
             url: "https://image-edit-backend.vercel.app/api/sub-categories",
             data: {},
             callback: getSubCategoriesCallback,
+            setLoading: setLoading
         });
     };
     useEffect(() => {
@@ -60,11 +62,13 @@ function SubCategories() {
     return (
         <div className="min-h-screen bg-gray-100 flex">
             <DashboardSideBar />
+            {loading && <Spinner />}
             <div className="w-4/5 p-8">
                 <HeaderComponents
                     label="Add SubCategory"
+                    name="SubCategories"
                     onClick={handleAddClick}
-                    buttonClassName="bg-black text-white px-4 py-2 text-sm rounded-md"
+                    buttonClassName="py-1 px-3 text-sm font-bold"
                 />
                 <div className="w-full p-8">
                     <TableComponent

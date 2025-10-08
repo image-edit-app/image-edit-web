@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import InputComponents from "../../CustomComponents/InputComponents/InputComponents";
 import PrimaryButtonComponent from "../../CustomComponents/PrimaryButtonComponent/PrimaryButtonComponent";
-import { apiCall } from "../../Utils/AxiosUtils";
+import { apiCall, Spinner } from "../../Utils/AxiosUtils";
 import { useState } from "react";
 
 function Login() {
     const navigate = useNavigate();
+    const [loading,setLoading]=useState(false)
     const [loginFormData, setLoginFormData] = useState({
         contact_number: "",
         password: ""
@@ -28,7 +29,8 @@ function Login() {
             method: "POST",
             url: "https://image-edit-backend.vercel.app/api/users/login",
             data: loginFormData,
-            callback: loginCallback
+            callback: loginCallback,
+            setLoading:setLoading
         });
     };
     return (
@@ -40,6 +42,7 @@ function Login() {
             }}
         >
             <div className="bg-black bg-opacity-60 p-10 rounded-xl shadow-2xl w-full max-w-lg mx-4">
+                 {loading && <Spinner />}
                 <div className="text-3xl font-bold text-white text-center mb-8">
                     Welcome To Image Editor
                 </div>

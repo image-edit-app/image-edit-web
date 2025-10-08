@@ -2,7 +2,7 @@ function PrimaryButtonComponent({ label, buttonClassName, onClick }) {
     return (
         <button
             onClick={onClick}
-            className={` py-4 text-lg font-serif font-bold rounded-lg transition duration-200 ${buttonClassName}`}
+            className={`py-2 px-3 bg-black text-white text-sm font-bold rounded items-center${buttonClassName}`}
         >
             {label}
         </button>

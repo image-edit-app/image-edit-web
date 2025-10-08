@@ -43,11 +43,12 @@ function AddCategories() {
                 <div className="mb-4">
                     <InputComponents
                         type="text"
+                        label="Add Category"
                         name="name"
                         placeholder="Enter Category Name"
                         value={categoryData.name}
                         onChange={handleInputChange}
-                        inputClassName="border px-2 py-2 rounded w-[300px]" />
+                        inputClassName="w-[190px]" />
                 </div>
                 <div>
                     <PrimaryButtonComponent

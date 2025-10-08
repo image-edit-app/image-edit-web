@@ -73,24 +73,25 @@ function AddSubCategories() {
             <DashboardSideBar />
             <div className="w-4/5 p-6">
                 <div className="mb-4">
-                    <InputComponents
-                        type="text"
-                        name="name"
-                        placeholder="Enter SubCategory Name"
-                        value={subCategoryData.name}
-                        onChange={handleInputChange}
-                        inputClassName="border px-2 py-2 rounded w-[300px]"
-                    />
-                </div>
-                <div className="mb-4">
                     <DropdownComponent
-                        label="Category"
+                        label="Add Category"
                         options={categoriesData}
                         value={subCategoryData.category}
                         onChange={(selectedValue) =>
                             setSubCategoryData({ ...subCategoryData, category: selectedValue })
                         }
-                        dropdownClassName="w-[300px]"
+                        dropdownClassName="w-[190px]"
+                    />
+                </div>
+                <div className="mb-4">
+                    <InputComponents
+                        label="Add Subcategory"
+                        type="text"
+                        name="name"
+                        placeholder="SubCategory"
+                        value={subCategoryData.name}
+                        onChange={handleInputChange}
+                        inputClassName="w-[190px]"
                     />
                 </div>
                 <div>
