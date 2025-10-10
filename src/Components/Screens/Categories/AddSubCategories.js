@@ -104,4 +104,4 @@ function AddSubCategories() {
             </div>
         </div>
     )
-} export default AddSubCategories
+} export default AddSubCategories;

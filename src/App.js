@@ -25,7 +25,9 @@ function App() {
           {/* <Route path="/add-plan" element={<AddNewPlan />} /> */}
           <Route path="/add-plan/:plan_id?" element={<AddNewPlan />} />
           <Route path="/categories" element={<Categories />} />
-          <Route path="/add-category" element={<AddCategories />} />
+          {/* <Route path="/add-category" element={<AddCategories />} /> */}
+          <Route path="/add-category/:category_id?" element={<AddCategories />} />
+
           <Route path="/subcategories" element={<SubCategories />} />
           <Route path="/add-subcategory" element={<AddSubCategories />} />
 

@@ -1,16 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputComponents from "../../CustomComponents/InputComponents/InputComponents";
 import DashboardSideBar from "../DashboardSideBar/DashboardSideBar";
 import PrimaryButtonComponent from "../../CustomComponents/PrimaryButtonComponent/PrimaryButtonComponent";
 import { apiCall } from "../../Utils/AxiosUtils";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function AddCategories() {
     const navigate = useNavigate();
+    const { category_id } = useParams();
     const [categoryData, setCategoryData] = useState({ name: "" });
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setCategoryData({ ...categoryData, [name]: value });
+    };
+    useEffect(() => {
+        if (category_id) {
+            getSingleCategory();
+        }
+    }, [category_id]);
+    const getSingleCategory = () => {
+        apiCall({
+            method: "GET",
+            url: `https://image-edit-backend.vercel.app/api/categories/${category_id}`,
+            data: {},
+            callback: getCategoryCallback,
+        });
+    };
+
+    const getCategoryCallback = (response) => {
+        if (response.status === 200) {
+            setCategoryData({ name: response.data.name });
+        } else {
+            console.log("Failed to fetch category");
+        }
     };
 
     const addCategoryCallback = (response) => {
@@ -24,10 +46,10 @@ function AddCategories() {
     };
 
     const addCategory = () => {
-        if (categoryData.name.trim() === "") {
-            console.log("Please enter category name");
-            return;
-        }
+        // if (categoryData.name.trim() === "") {
+        //     console.log("Please enter category name");
+        //     return;
+        // }
 
         apiCall({
             method: "POST",
@@ -36,6 +58,28 @@ function AddCategories() {
             callback: addCategoryCallback,
         });
     };
+    const updateCategory = () => {
+        apiCall({
+            method: "PUT",
+            url: `https://image-edit-backend.vercel.app/api/categories/${category_id}`,
+            data: categoryData,
+            callback: addCategoryCallback,
+        });
+    };
+
+    const handleSubmit = () => {
+        if (categoryData.name.trim() === "") {
+            console.log("Please enter category name");
+            return;
+        }
+
+        if (category_id) {
+            updateCategory();
+        } else {
+            addCategory();
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gray-100 flex">
             <DashboardSideBar />
@@ -43,7 +87,8 @@ function AddCategories() {
                 <div className="mb-4">
                     <InputComponents
                         type="text"
-                        label="Add Category"
+                        // label="Add Category"
+                        label={category_id ? "Edit Category" : "Add Category"}
                         name="name"
                         placeholder="Enter Category Name"
                         value={categoryData.name}
@@ -53,7 +98,8 @@ function AddCategories() {
                 <div>
                     <PrimaryButtonComponent
                         label="Submit"
-                        onClick={addCategory}
+                        // onClick={addCategory}
+                        onClick={handleSubmit}
                         buttonClassName="w-[20%] bg-black text-white px-3 py-2 rounded-md"
                     />
                 </div>

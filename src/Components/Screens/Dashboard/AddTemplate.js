@@ -1,4 +1,5 @@
 import DropdownComponent from "../../CustomComponents/DropdownComponent/DropdownComponent";
+import InputComponents from "../../CustomComponents/InputComponents/InputComponents";
 import PrimaryButtonComponent from "../../CustomComponents/PrimaryButtonComponent/PrimaryButtonComponent";
 import { apiCall } from "../../Utils/AxiosUtils";
 import DashboardSideBar from "../DashboardSideBar/DashboardSideBar";
@@ -11,6 +12,11 @@ function AddTemplate() {
     const [categoriesData, setCategoriesData] = useState([]);
     const [subcategoryOptions, setSubcategoryOptions] = useState([]);
     const planOptions = ["Free", "Paid"];
+    const [fontFamily, setFontFamily] = useState("");
+    const [fontSize, setFontSize] = useState("");
+    const [fontColor, setFontColor] = useState("");
+    const [fontStyle, setFontStyle] = useState("");
+    const [fontWeight, setFontWeight] = useState("");
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -44,6 +50,11 @@ function AddTemplate() {
             categories: selectedCategory || "",
             sub_categories: selectedSubcategory || "",
             url: templateFileBase64 || "",
+            font_family: fontFamily,
+            font_size: fontSize,
+            font_color: fontColor,
+            font_style: fontStyle,
+            font_weight: fontWeight,
         };
         apiCall({
             method: "POST",
@@ -131,6 +142,47 @@ function AddTemplate() {
                             dropdownClassName="w-full"
                         />
                     </div>
+                    <InputComponents
+                        type="text"
+                        label="Font Family"
+                        placeholder="Enter font family"
+                        value={fontFamily}
+                        onChange={(e) => setFontFamily(e.target.value)}
+                        inputClassName="w-full"
+                    />
+                    <InputComponents
+                        type="text"
+                        label="Font Size"
+                        placeholder="Enter font size"
+                        value={fontSize}
+                        onChange={(e) => setFontSize(e.target.value)}
+                        inputClassName="w-full"
+                    />
+                    <InputComponents
+                        type="text"
+                        label="Font Color"
+                        placeholder="Enter font color"
+                        value={fontColor}
+                        onChange={(e) => setFontColor(e.target.value)}
+                        inputClassName="w-full"
+                    />
+                    <InputComponents
+                        type="text"
+                        label="Font Style"
+                        placeholder="Enter font style"
+                        value={fontStyle}
+                        onChange={(e) => setFontStyle(e.target.value)}
+                        inputClassName="w-full"
+                    />
+                    <InputComponents
+                        type="text"
+                        label="Font Weight"
+                        placeholder="Enter font weight"
+                        value={fontWeight}
+                        onChange={(e) => setFontWeight(e.target.value)}
+                        inputClassName="w-full"
+                    />
+
                     <div className="text-center">
                         <PrimaryButtonComponent
                             label="Submit"
