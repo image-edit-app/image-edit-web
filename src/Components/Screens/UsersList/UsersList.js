@@ -63,12 +63,14 @@ function UsersList() {
                 <HeaderComponents
                     name="Users List"
                 />
-                <TableComponent
-                    headers={headers}
-                    data={users}
-                    expandedRowIndex={expandedRowIndex}
-                    onRowClick={handleRowClick}
-                />
+                <div className="h-[84vh]">
+                    <TableComponent
+                        headers={headers}
+                        data={users}
+                        expandedRowIndex={expandedRowIndex}
+                        onRowClick={handleRowClick}
+                    />
+                </div>
             </div>
         </div>
 

@@ -68,6 +68,7 @@ function SubCategories() {
                     label="Add SubCategory"
                     name="SubCategories"
                     onClick={handleAddClick}
+                    icon="fa fa-plus-circle"
                     buttonClassName="py-1 px-3 text-sm font-bold"
                 />
                 <div className="w-full p-8">

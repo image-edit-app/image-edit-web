@@ -38,6 +38,7 @@ function SubscriptionPlans() {
             <div className="w-4/5 p-8">
                 <HeaderComponents
                     name="Subscription Plans"
+                    icon="fa fa-plus-circle"
                     label="Add New Plan"
                     onClick={handleAddPlanClick}
                     buttonClassName="py-1 px-3 text-sm font-bold"

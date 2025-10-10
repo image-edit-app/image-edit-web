@@ -15,8 +15,6 @@ function AddTemplate() {
     const [fontFamily, setFontFamily] = useState("");
     const [fontSize, setFontSize] = useState("");
     const [fontColor, setFontColor] = useState("");
-    const [fontStyle, setFontStyle] = useState("");
-    const [fontWeight, setFontWeight] = useState("");
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -53,8 +51,6 @@ function AddTemplate() {
             font_family: fontFamily,
             font_size: fontSize,
             font_color: fontColor,
-            font_style: fontStyle,
-            font_weight: fontWeight,
         };
         apiCall({
             method: "POST",
@@ -105,7 +101,7 @@ function AddTemplate() {
         <div className="min-h-screen bg-gray-100 flex">
             <DashboardSideBar />
             <div className="p-8 w-full max-w-3xl mx-auto">
-                <div className="bg-white p-6 rounded-lg shadow-md space-y-6">
+                <div className="bg-white p-6 rounded-lg shadow-md space-y-3">
                     <div className="flex flex-col">
                         <label className="font-bold mb-2 text-gray-700">Template</label>
                         <input
@@ -166,23 +162,6 @@ function AddTemplate() {
                         onChange={(e) => setFontColor(e.target.value)}
                         inputClassName="w-full"
                     />
-                    <InputComponents
-                        type="text"
-                        label="Font Style"
-                        placeholder="Enter font style"
-                        value={fontStyle}
-                        onChange={(e) => setFontStyle(e.target.value)}
-                        inputClassName="w-full"
-                    />
-                    <InputComponents
-                        type="text"
-                        label="Font Weight"
-                        placeholder="Enter font weight"
-                        value={fontWeight}
-                        onChange={(e) => setFontWeight(e.target.value)}
-                        inputClassName="w-full"
-                    />
-
                     <div className="text-center">
                         <PrimaryButtonComponent
                             label="Submit"

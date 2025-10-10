@@ -9,6 +9,7 @@ import AddCategories from './Components/Screens/Categories/AddCategories';
 import SubCategories from './Components/Screens/Categories/SubCategories';
 import AddSubCategories from './Components/Screens/Categories/AddSubCategories';
 import AddNewPlan from './Components/Screens/SubscriptionPlans/AddNewPlan';
+import { ToastContainer } from 'react-toastify';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
 
     <div>
       <Router>
+        <ToastContainer />  
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />

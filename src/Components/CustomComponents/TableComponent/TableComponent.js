@@ -1,12 +1,12 @@
-function TableComponent({ headers, data, expandedRowIndex, onRowClick }) {
+function TableComponent({ headers, data, expandedRowIndex, onRowClick, maxHeight = "h-full", }) {
     const unknownUserImage = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
     return (
-        <div className="overflow-x-auto bg-white rounded-lg shadow">
+        <div className={`w-full overflow-x-auto bg-white rounded-lg shadow relative ${maxHeight}`}>
             <table className="min-w-full table-auto text-left">
-                <thead>
-                    <tr className="bg-gray-200 text-gray-700">
+                <thead className="sticky top-0 bg-gray-200 text-gray-700 z-10"> 
+                    <tr>
                         {headers.map((header, index) => (
-                            <th key={index} className="px-6 py-3 border-b capitalize">
+                            <th key={index} className="px-4 py-2 border-b capitalize">
                                 {header}
                             </th>
                         ))}
