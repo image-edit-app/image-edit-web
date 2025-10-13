@@ -100,72 +100,77 @@ function AddTemplate() {
     return (
         <div className="min-h-screen bg-gray-100 flex">
             <DashboardSideBar />
-            <div className="p-8 w-full max-w-3xl mx-auto">
-                <div className="bg-white p-6 rounded-lg shadow-md space-y-3">
-                    <div className="flex flex-col">
-                        <label className="font-bold mb-2 text-gray-700">Template</label>
-                        <input
-                            type="file"
-                            name="image"
-                            onChange={handleFileChange}
-                            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        />
-                    </div>
-                    <div className="flex flex-col">
+            <div className="p-6 w-full">
+                <div className="bg-white p-6 rounded-lg shadow-md">
+                    <div className="grid grid-cols-2 gap-x-5 gap-y-4">
+                        <div className="flex flex-col">
+                            <label className="font-serif font-bold mb-1">Template File</label>
+                            <input
+                                type="file"
+                                name="template"
+                                onChange={handleFileChange}
+                                className="border p-2 rounded w-[80%]"
+                            />
+                        </div>
                         <DropdownComponent
                             label="Plan"
                             options={planOptions}
                             value={selectedPlan}
                             onChange={setSelectedPlan}
-                            dropdownClassName="w-full"
+                            dropdownClassName="w-[80%]"
+                            labelClassName="font-serif font-bold"
                         />
-                    </div>
-                    <div className="flex flex-col">
                         <DropdownComponent
                             label="Category"
                             options={categoriesData}
                             value={selectedCategory}
                             onChange={setSelectedCategory}
-                            dropdownClassName="w-full"
+                            dropdownClassName="w-[80%]"
+                            labelClassName="font-serif font-bold"
                         />
-                    </div>
-                    <div className="flex flex-col">
                         <DropdownComponent
                             label="Subcategory"
                             options={subcategoryOptions}
                             value={selectedSubcategory}
                             onChange={setSelectedSubcategory}
-                            dropdownClassName="w-full"
+                            dropdownClassName="w-[80%]"
+                            labelClassName="font-serif font-bold"
+                        />
+                        <InputComponents
+                            type="text"
+                            label="Font Family"
+                            placeholder="Enter font family"
+                            value={fontFamily}
+                            onChange={(e) => setFontFamily(e.target.value)}
+                            inputClassName="w-[80%]"
+                            labelClassName="font-serif font-bold"
+
+                        />
+                        <InputComponents
+                            type="text"
+                            label="Font Size"
+                            placeholder="Enter font size"
+                            value={fontSize}
+                            onChange={(e) => setFontSize(e.target.value)}
+                            inputClassName="w-[80%]"
+                            labelClassName="font-serif font-bold"
+
+                        />
+                        <InputComponents
+                            type="text"
+                            label="Font Color"
+                            placeholder="Enter font color"
+                            value={fontColor}
+                            onChange={(e) => setFontColor(e.target.value)}
+                            inputClassName="w-[80%]"
+                            labelClassName="font-serif font-bold"
+
                         />
                     </div>
-                    <InputComponents
-                        type="text"
-                        label="Font Family"
-                        placeholder="Enter font family"
-                        value={fontFamily}
-                        onChange={(e) => setFontFamily(e.target.value)}
-                        inputClassName="w-full"
-                    />
-                    <InputComponents
-                        type="text"
-                        label="Font Size"
-                        placeholder="Enter font size"
-                        value={fontSize}
-                        onChange={(e) => setFontSize(e.target.value)}
-                        inputClassName="w-full"
-                    />
-                    <InputComponents
-                        type="text"
-                        label="Font Color"
-                        placeholder="Enter font color"
-                        value={fontColor}
-                        onChange={(e) => setFontColor(e.target.value)}
-                        inputClassName="w-full"
-                    />
-                    <div className="text-center">
+                    <div className="flex justify-center mt-6">
                         <PrimaryButtonComponent
                             label="Submit"
-                            buttonClassName="bg-black w-[50%] text-white px-4 py-2 text-sm rounded-md"
+                            buttonClassName="bg-black text-white px-6 py-2 text-sm rounded-md"
                             onClick={addTemplateData}
                         />
                     </div>
@@ -173,6 +178,7 @@ function AddTemplate() {
                 </div>
             </div>
         </div>
+
     );
 }
 export default AddTemplate;

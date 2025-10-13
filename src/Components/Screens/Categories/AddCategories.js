@@ -9,9 +9,14 @@ function AddCategories() {
     const navigate = useNavigate();
     const { category_id } = useParams();
     const [categoryData, setCategoryData] = useState({ name: "" });
+    const [error, setError] = useState("");
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setCategoryData({ ...categoryData, [name]: value });
+
+        if (value.trim() !== "") {
+            setError("");
+        }
     };
     useEffect(() => {
         if (category_id) {
@@ -46,11 +51,6 @@ function AddCategories() {
     };
 
     const addCategory = () => {
-        // if (categoryData.name.trim() === "") {
-        //     console.log("Please enter category name");
-        //     return;
-        // }
-
         apiCall({
             method: "POST",
             url: "https://image-edit-backend.vercel.app/api/categories",
@@ -69,9 +69,10 @@ function AddCategories() {
 
     const handleSubmit = () => {
         if (categoryData.name.trim() === "") {
-            console.log("Please enter category name");
+            setError("Please enter category name");
             return;
         }
+        setError("");
 
         if (category_id) {
             updateCategory();
@@ -93,12 +94,17 @@ function AddCategories() {
                         placeholder="Enter Category Name"
                         value={categoryData.name}
                         onChange={handleInputChange}
-                        inputClassName="w-[190px]" />
+                        inputClassName="w-[190px]"
+                    />
+                    {error && (
+                        <div className="text-red-600 text-sm mt-1">
+                            {error}
+                        </div>
+                    )}
                 </div>
                 <div>
                     <PrimaryButtonComponent
                         label="Submit"
-                        // onClick={addCategory}
                         onClick={handleSubmit}
                         buttonClassName="w-[20%] bg-black text-white px-3 py-2 rounded-md"
                     />

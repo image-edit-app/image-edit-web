@@ -28,7 +28,7 @@ function UsersList() {
                 "Name": user.name,
                 "Contact No": user.contact_number,
                 "Role": user.role,
-                "Plan": user.subscription_details,
+                // "Plan": user.subscription_details,
                 "Firm Name": user.firm_name,
                 "Gender": user.gender,
                 "Dob": user.DOB,

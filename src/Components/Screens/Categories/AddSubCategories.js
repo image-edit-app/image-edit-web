@@ -12,10 +12,11 @@ function AddSubCategories() {
         name: "",
         category: ""
     });
-
+    const [errors, setErrors] = useState({});
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setSubCategoryData({ ...subCategoryData, [name]: value });
+        setErrors(errors => ({ ...errors, [name]: "" }));
     };
     const [categoriesData, setCategoriesData] = useState([]);
     useEffect(() => {
@@ -51,16 +52,25 @@ function AddSubCategories() {
             console.log("Failed to add subcategory");
         }
     };
+    const validateSubCategory = () => {
+        const newErrors = {};
 
-    const addSubCategory = () => {
-        if (subCategoryData.name.trim() === ""
-            // ||
-            // subCategoryData.category_name.trim() === ""
-        ) {
-            console.log("Please enter subcategory name");
-            return;
+        if (!subCategoryData.category.trim()) {
+            newErrors.category = "Please select a category";
         }
 
+        if (!subCategoryData.name.trim()) {
+            newErrors.name = "Please enter subcategory name";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const addSubCategory = () => {
+        if (!validateSubCategory()) {
+            return;
+        }
         apiCall({
             method: "POST",
             url: "https://image-edit-backend.vercel.app/api/sub-categories",
@@ -77,10 +87,12 @@ function AddSubCategories() {
                         label="Add Category"
                         options={categoriesData}
                         value={subCategoryData.category}
-                        onChange={(selectedValue) =>
-                            setSubCategoryData({ ...subCategoryData, category: selectedValue })
-                        }
+                        onChange={(selectedValue) => {
+                            setSubCategoryData({ ...subCategoryData, category: selectedValue });
+                            setErrors(errors => ({ ...errors, category: "" }));
+                        }}
                         dropdownClassName="w-[190px]"
+                        error={errors.category}
                     />
                 </div>
                 <div className="mb-4">
@@ -92,6 +104,7 @@ function AddSubCategories() {
                         value={subCategoryData.name}
                         onChange={handleInputChange}
                         inputClassName="w-[190px]"
+                        error={errors.name}
                     />
                 </div>
                 <div>

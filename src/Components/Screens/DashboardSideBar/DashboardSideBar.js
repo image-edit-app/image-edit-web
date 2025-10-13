@@ -8,7 +8,7 @@ function DashboardSideBar() {
 
     return (
         <div className="w-1/5 shadow-md py-6 px-4 flex flex-col justify-between bg-black h-screen">
-            <div className="flex flex-col space-y-4">
+            <div className="flex flex-col space-y-4 items-start">
                 <PrimaryButtonComponent
                     label="Dashboard"
                     buttonClassName="bg-white text-gray-800 hover:bg-gray-300"
@@ -35,7 +35,7 @@ function DashboardSideBar() {
                     onClick={() => navigate("/subcategories")}
                 />
             </div>
-            <div className="flex justify-center">
+            <div>
                 <PrimaryButtonComponent
                     label="Logout"
                     icon="fa fa-sign-out"

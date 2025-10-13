@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function DropdownComponent({ label, options = [], value = [], onChange, dropdownClassName = "" }) {
+function DropdownComponent({ label, options = [], value = [], onChange, dropdownClassName = "", error }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleDropdown = () => {
@@ -44,7 +44,9 @@ function DropdownComponent({ label, options = [], value = [], onChange, dropdown
                     ))}
                 </div>
             )}
-
+            {error && (
+                <div className="text-red-600 text-sm mt-1">{error}</div>
+            )}
         </div>
     );
 }
