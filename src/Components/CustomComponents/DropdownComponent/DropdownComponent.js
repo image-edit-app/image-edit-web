@@ -19,12 +19,19 @@ function DropdownComponent({ label, options = [], value = [], onChange, dropdown
     return (
         <div className={`relative ${dropdownClassName}`}>
             <label className="font-semibold mb-1 block">{label}</label>
-            <div
+            {/* <div
                 className="mt-2 p-2 border border-gray-300 rounded bg-white cursor-pointer"
                 onClick={toggleDropdown}
             >
                 {value.length > 0 ? value.join(", ") : `Select ${label}`}
+            </div> */}
+            <div
+                className="mt-2 p-2 border border-gray-300 rounded bg-white cursor-pointer"
+                onClick={toggleDropdown}
+            >
+                {value?.join ? value.join(", ") : `Select ${label}`}
             </div>
+
             {isOpen && (
                 <div className="absolute z-10 w-full mt-1 max-h-60 overflow-y-auto bg-white border border-gray-300 rounded shadow">
                     {options.map((option, idx) => (

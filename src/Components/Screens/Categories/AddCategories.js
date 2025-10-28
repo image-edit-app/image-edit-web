@@ -88,7 +88,6 @@ function AddCategories() {
                 <div className="mb-4">
                     <InputComponents
                         type="text"
-                        // label="Add Category"
                         label={category_id ? "Edit Category" : "Add Category"}
                         name="name"
                         placeholder="Enter Category Name"

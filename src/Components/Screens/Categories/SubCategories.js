@@ -15,7 +15,7 @@ function SubCategories() {
     const [categoriesData, setCategoriesData] = useState([]);
     const [loading, setLoading] = useState(false)
 
-    const headers = ["name", "category"];
+    const headers = ["name", "category", "action",];
     const getCategoriesData = () => {
         const url = "https://image-edit-backend.vercel.app/api/categories";
         apiCall({
@@ -39,6 +39,15 @@ function SubCategories() {
             const subcategories = response.data.map(subcategory => ({
                 ...subcategory,
                 category: subcategory.category?.name || "N/A",
+                action: (
+                    <div
+                        className="h-8 w-8 flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 cursor-pointer"
+                        title="Edit"
+                        onClick={() => navigate(`/add-subcategory/${subcategory._id}`)}
+                    >
+                        <i className="fa fa-pencil text-gray-700 text-sm" />
+                    </div>
+                )
             }));
             setSubCategories(subcategories);
         } else {

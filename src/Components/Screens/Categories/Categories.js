@@ -10,35 +10,11 @@ function Categories() {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
-    // const headers = ["name"];
     const headers = ["name", "action"];
     const handleAddClick = () => {
         navigate("/add-category");
     };
     const getCategoriesCallback = (response) => {
-        // if (response.status === 200) {
-        //         setCategories(response.data);
-        //     } else {
-        //         console.log("Failed to fetch categories");
-        //     }
-        // };
-        // Add "action" column with edit icon
-        //     const categoryData = response.data.map((category) => ({
-        //         ...category,
-        //         action: (
-        //             <div
-        //                 className="h-8 w-8 flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 cursor-pointer"
-        //                 title="Edit"
-        //                 onClick={() => navigate(`/add-category/${category._id}`)}
-        //             >
-        //                 <i className="fa fa-pencil text-gray-700 text-sm" />
-        //             </div>
-        //         ),
-        //     }));
-        //     setCategories(categoryData);
-        // } else {
-        //     console.log("Failed to fetch categories");
-        // }
         if (response.status === 200) {
             const updated = response.data.map((category) => ({
                 ...category,
@@ -84,7 +60,12 @@ function Categories() {
                 <div className="w-full p-8">
                     <TableComponent
                         headers={headers}
-                        data={categories} />
+                        data={categories}
+                        onRowClick={(row) => {
+                            console.log("Clicked row:", row);
+                            // Tumhi navigate pan karu shakta
+                            // navigate(`/some-path/${row._id}`);
+                        }} />
 
                 </div>
 
@@ -92,5 +73,4 @@ function Categories() {
         </div>
     );
 }
-
 export default Categories;

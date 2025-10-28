@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import InputComponents from "../../CustomComponents/InputComponents/InputComponents"
 import PrimaryButtonComponent from "../../CustomComponents/PrimaryButtonComponent/PrimaryButtonComponent"
 import DashboardSideBar from "../DashboardSideBar/DashboardSideBar"
@@ -12,6 +12,7 @@ function AddSubCategories() {
         name: "",
         category: ""
     });
+    const { subcategory_id } = useParams();
     const [errors, setErrors] = useState({});
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -21,7 +22,12 @@ function AddSubCategories() {
     const [categoriesData, setCategoriesData] = useState([]);
     useEffect(() => {
         getCategoriesData();
-    }, []);
+
+        if (subcategory_id) {
+            getSubCategoryById();
+        }
+    }, [subcategory_id]);
+
 
     const getCategoriesData = () => {
         const url = "https://image-edit-backend.vercel.app/api/categories";
@@ -41,7 +47,24 @@ function AddSubCategories() {
             console.log("Error fetching categories");
         }
     };
-
+    const getSubCategoryById = () => {
+        apiCall({
+            method: "GET",
+            url: `https://image-edit-backend.vercel.app/api/sub-categories/${subcategory_id}`,
+            data: {},
+            callback: (response) => {
+                if (response.status === 200) {
+                    const subcategory = response.data;
+                    setSubCategoryData({
+                        name: subcategory.name || "",
+                        category: subcategory.category?.name || "",
+                    });
+                } else {
+                    console.log("Failed to fetch subcategory details");
+                }
+            }
+        });
+    };
 
     const addSubCategoryCallback = (response) => {
         if (response.status === 200) {
@@ -52,20 +75,34 @@ function AddSubCategories() {
             console.log("Failed to add subcategory");
         }
     };
-    const validateSubCategory = () => {
-        const newErrors = {};
+    // const validateSubCategory = () => {
+    //     const newErrors = {};
 
-        if (!subCategoryData.category.trim()) {
-            newErrors.category = "Please select a category";
-        }
+    //     if (!subCategoryData.category.trim()) {
+    //         newErrors.category = "Please select a category";
+    //     }
 
-        if (!subCategoryData.name.trim()) {
-            newErrors.name = "Please enter subcategory name";
-        }
+    //     if (!subCategoryData.name.trim()) {
+    //         newErrors.name = "Please enter subcategory name";
+    //     }
 
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
+    //     setErrors(newErrors);
+    //     return Object.keys(newErrors).length === 0;
+    // };
+const validateSubCategory = () => {
+    const newErrors = {};
+
+    // if (typeof subCategoryData.category !== "string" || !subCategoryData.category.trim()) {
+    //     newErrors.category = "Please select a category";
+    // }
+
+    if (!subCategoryData.name.trim()) {
+        newErrors.name = "Please enter subcategory name";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+};
 
     const addSubCategory = () => {
         if (!validateSubCategory()) {
@@ -78,10 +115,38 @@ function AddSubCategories() {
             callback: addSubCategoryCallback,
         });
     };
+    const updateSubCategory = () => {
+        if (!validateSubCategory()) return;
+
+        apiCall({
+            method: "PUT",
+            url: `https://image-edit-backend.vercel.app/api/sub-categories/${subcategory_id}`,
+            data: subCategoryData,
+            callback: (response) => {
+                if (response.status === 200) {
+                    console.log("SubCategory updated successfully");
+                    navigate("/subcategories");
+                } else {
+                    console.log("Failed to update subcategory");
+                }
+            }
+        });
+    };
+    const handleSubmit = () => {
+        if (subcategory_id) {
+            updateSubCategory();
+        } else {
+            addSubCategory();
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gray-100 flex">
             <DashboardSideBar />
             <div className="w-4/5 p-6">
+                <h2 className="text-xl font-bold mb-4">
+                    {subcategory_id ? "Edit SubCategory" : "Add SubCategory"}
+                </h2>
                 <div className="mb-4">
                     <DropdownComponent
                         label="Add Category"
@@ -92,7 +157,7 @@ function AddSubCategories() {
                             setErrors(errors => ({ ...errors, category: "" }));
                         }}
                         dropdownClassName="w-[190px]"
-                        error={errors.category}
+                        // error={errors.category}
                     />
                 </div>
                 <div className="mb-4">
@@ -110,7 +175,7 @@ function AddSubCategories() {
                 <div>
                     <PrimaryButtonComponent
                         label="Submit"
-                        onClick={addSubCategory}
+                        onClick={handleSubmit}
                         buttonClassName="w-[20%] bg-black text-white px-3 py-2 rounded-md"
                     />
                 </div>

@@ -11,10 +11,11 @@ function AddTemplate() {
     const [templateFileBase64, setTemplateFileBase64] = useState("");
     const [categoriesData, setCategoriesData] = useState([]);
     const [subcategoryOptions, setSubcategoryOptions] = useState([]);
-    const planOptions = ["Free", "Paid"];
     const [fontFamily, setFontFamily] = useState("");
     const [fontSize, setFontSize] = useState("");
     const [fontColor, setFontColor] = useState("");
+    const [planOptions, setPlanOptions] = useState([]);
+    const [errors, setErrors] = useState({});
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -28,7 +29,27 @@ function AddTemplate() {
     useEffect(() => {
         getCategoriesData();
         getSubcategoriesData();
+        getPlansData();
     }, []);
+
+    const getPlansData = () => {
+        apiCall({
+            method: "GET",
+            url: "https://image-edit-backend.vercel.app/api/subscription-plans",
+            data: {},
+            callback: getPlansCallback,
+        });
+    };
+
+    const getPlansCallback = (response) => {
+        if (response.status === 200) {
+            const plans = response.data.map(plan => plan.name);
+            setPlanOptions(plans);
+        } else {
+            console.log("Failed to fetch plans");
+        }
+    };
+
     const addTemplatesCallback = (response) => {
         console.log('response: ', response);
         if (response.status === 200) {
@@ -37,14 +58,45 @@ function AddTemplate() {
             console.log("Failed to add template.");
         };
     }
+    const validateTemplateData = () => {
+        const newErrors = {};
+
+        if (!templateFileBase64) {
+            newErrors.template = "Please upload a template file.";
+        }
+        if (!selectedPlan) {
+            newErrors.plan = "Please select a plan.";
+        }
+        if (!selectedCategory) {
+            newErrors.category = "Please select a category.";
+        }
+        if (!selectedSubcategory) {
+            newErrors.subcategory = "Please select a subcategory.";
+        }
+        if (!fontFamily.trim()) {
+            newErrors.fontFamily = "Please enter font family.";
+        }
+        if (!fontSize.trim()) {
+            newErrors.fontSize = "Please enter font size.";
+        }
+        if (!fontColor.trim()) {
+            newErrors.fontColor = "Please enter font color.";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const addTemplateData = () => {
+        if (!validateTemplateData()) return;
         console.log("Submitting data:");
         console.log("Plan:", selectedPlan);
         console.log("Category:", selectedCategory);
         console.log("Subcategory:", selectedSubcategory);
         console.log("Template base64:", templateFileBase64);
         const requestData = {
-            paid: selectedPlan === "Paid",
+            // plans: selectedPlan === "Paid",
+            plans: selectedPlan,
             categories: selectedCategory || "",
             sub_categories: selectedSubcategory || "",
             url: templateFileBase64 || "",
@@ -108,42 +160,69 @@ function AddTemplate() {
                             <input
                                 type="file"
                                 name="template"
-                                onChange={handleFileChange}
+                                // onChange={handleFileChange}
+                                onChange={(e) => {
+                                    handleFileChange(e);
+                                    setErrors(errors => ({ ...errors, template: "" }));
+                                }}
                                 className="border p-2 rounded w-[80%]"
                             />
+                            {errors.template && (
+                                <span className="text-red-500 text-sm">{errors.template}</span>
+                            )}
                         </div>
                         <DropdownComponent
                             label="Plan"
                             options={planOptions}
                             value={selectedPlan}
-                            onChange={setSelectedPlan}
+                            // onChange={setSelectedPlan}
+                            onChange={(value) => {
+                                setSelectedPlan(value);
+                                setErrors(errors => ({ ...errors, plan: "" }));
+                            }}
                             dropdownClassName="w-[80%]"
                             labelClassName="font-serif font-bold"
+                            error={errors.plan}
                         />
                         <DropdownComponent
                             label="Category"
                             options={categoriesData}
                             value={selectedCategory}
-                            onChange={setSelectedCategory}
+                            // onChange={setSelectedCategory}
+                            onChange={(value) => {
+                                setSelectedCategory(value);
+                                setErrors(errors => ({ ...errors, category: "" }));
+                            }}
                             dropdownClassName="w-[80%]"
                             labelClassName="font-serif font-bold"
+                            error={errors.category}
                         />
                         <DropdownComponent
                             label="Subcategory"
                             options={subcategoryOptions}
                             value={selectedSubcategory}
-                            onChange={setSelectedSubcategory}
+                            // onChange={setSelectedSubcategory}
+                            onChange={(value) => {
+                                setSelectedSubcategory(value);
+                                setErrors(errors => ({ ...errors, subcategory: "" }));
+                            }}
                             dropdownClassName="w-[80%]"
                             labelClassName="font-serif font-bold"
+                            error={errors.subcategory}
                         />
                         <InputComponents
                             type="text"
                             label="Font Family"
                             placeholder="Enter font family"
                             value={fontFamily}
-                            onChange={(e) => setFontFamily(e.target.value)}
+                            // onChange={(e) => setFontFamily(e.target.value)}
+                            onChange={(e) => {
+                                setFontFamily(e.target.value);
+                                setErrors(errors => ({ ...errors, fontFamily: "" }));
+                            }}
                             inputClassName="w-[80%]"
                             labelClassName="font-serif font-bold"
+                            error={errors.fontFamily}
 
                         />
                         <InputComponents
@@ -151,9 +230,14 @@ function AddTemplate() {
                             label="Font Size"
                             placeholder="Enter font size"
                             value={fontSize}
-                            onChange={(e) => setFontSize(e.target.value)}
+                            // onChange={(e) => setFontSize(e.target.value)}
+                            onChange={(e) => {
+                                setFontSize(e.target.value);
+                                setErrors(errors => ({ ...errors, fontSize: "" }));
+                            }}
                             inputClassName="w-[80%]"
                             labelClassName="font-serif font-bold"
+                            error={errors.fontSize}
 
                         />
                         <InputComponents
@@ -161,9 +245,14 @@ function AddTemplate() {
                             label="Font Color"
                             placeholder="Enter font color"
                             value={fontColor}
-                            onChange={(e) => setFontColor(e.target.value)}
+                            // onChange={(e) => setFontColor(e.target.value)}
+                            onChange={(e) => {
+                                setFontColor(e.target.value);
+                                setErrors(errors => ({ ...errors, fontColor: "" }));
+                            }}
                             inputClassName="w-[80%]"
                             labelClassName="font-serif font-bold"
+                            error={errors.fontColor}
 
                         />
                     </div>
