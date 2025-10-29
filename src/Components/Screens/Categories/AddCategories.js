@@ -43,7 +43,7 @@ function AddCategories() {
     const addCategoryCallback = (response) => {
         if (response.status === 200) {
             console.log("Category added successfully");
-            setCategoryData({ name: "" });
+            setCategoryData({ name: ""  });
             navigate("/categories");
         } else {
             console.log("Failed to add category");

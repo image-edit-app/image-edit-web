@@ -10,16 +10,21 @@ export default function Dashboard() {
     const [category, setCategory] = useState("");
     const [subcategory, setSubcategory] = useState("");
     const [templates, setTemplates] = useState([]);
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [offset, setOffset] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-    const limit = 4;
+    const limit = 2;
     const navigate = useNavigate();
     useEffect(() => {
-        // getTemplateData({});
-        getTemplateData({ category: "", subcategory: "", offset: 0 });
+        getTemplateData({ category: "", subcategory: "", offset: 0, isInitial: true });
     }, []);
-    const getTemplatesCallback = (response,offsetValue) => {
+    useEffect(() => {
+        if (hasMore && !loading) {
+            getTemplateData({ category, subcategory, offset, isInitial: false });
+        }
+    }, [templates]);
+
+    const getTemplatesCallback = (response, offsetValue, isInitial) => {
         if (response.status === 200) {
             const newTemplates = response.data || [];
             if (offsetValue === 0) {
@@ -32,9 +37,10 @@ export default function Dashboard() {
         } else {
             console.error("Failed to fetch templates", response);
         }
+        if (isInitial) setLoading(false);
     };
 
-    const getTemplateData = ({ category, subcategory, offset = 0 }) => {
+    const getTemplateData = ({ category, subcategory, offset = 0, isInitial = false }) => {
         // let url = "https://image-edit-backend.vercel.app/api/templates?";
         let url = `https://image-edit-backend.vercel.app/api/templates?limit=${limit}&offset=${offset}`;
         // if (category) {
@@ -52,35 +58,25 @@ export default function Dashboard() {
             data: {},
             // callback: getTemplatesCallback,
             callback: (response) => getTemplatesCallback(response, offset),
-            setLoading: setLoading
+            setLoading: isInitial ? setLoading : undefined
         });
     };
     const handleSearchFilter = () => {
         setOffset(0);
         setHasMore(true);
         setTemplates([]);
-        getTemplateData({ category, subcategory, offset: 0 });
-        // getTemplateData({ category, subcategory });
+        getTemplateData({ category, subcategory, offset: 0, isInitial: true });
     };
-
     const handleResetFilter = () => {
         setCategory('');
         setSubcategory('');
         setOffset(0);
         setHasMore(true);
         setTemplates([]);
-        getTemplateData({ category: "", subcategory: "", offset: 0 });
-        // getTemplateData({});
+        getTemplateData({ category: "", subcategory: "", offset: 0, isInitial: true });
     };
-
     const handleAddTemplateClick = () => {
         navigate("/add-template");
-    };
-    const handleScroll = (e) => {
-        const { scrollTop, scrollHeight, clientHeight } = e.target;
-        if (scrollTop + clientHeight >= scrollHeight - 5 && hasMore && !loading) {
-            getTemplateData({ category, subcategory, offset });
-        }
     };
     return (
         <div className="min-h-screen bg-gray-100 flex">
@@ -128,26 +124,14 @@ export default function Dashboard() {
                         />
                     </div>
                 </div>
-
-                {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 h-[70vh] overflow-y-auto">
+                <div className="grid grid-cols-5 gap-6 h-[70vh] overflow-y-auto">
                     {templates.map((cat, i) => (
                         <div key={i} className="cursor-pointer">
                             <CategoryCardComponent img={cat.url} />
                         </div>
                     ))}
-                </div> */}
-                <div
-                    onScroll={handleScroll}
-                    className="h-[24vh] overflow-y-auto"
-                >
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6">
-                        {templates.map((cat, i) => (
-                            <div key={i} className="cursor-pointer">
-                                <CategoryCardComponent img={cat.url} />
-                            </div>
-                        ))}
-                    </div>
                 </div>
+
             </div>
         </div>
 

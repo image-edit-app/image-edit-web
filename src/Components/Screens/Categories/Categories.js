@@ -63,8 +63,6 @@ function Categories() {
                         data={categories}
                         onRowClick={(row) => {
                             console.log("Clicked row:", row);
-                            // Tumhi navigate pan karu shakta
-                            // navigate(`/some-path/${row._id}`);
                         }} />
 
                 </div>

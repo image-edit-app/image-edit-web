@@ -17,7 +17,9 @@ function TableComponent({ headers, data, expandedRowIndex, onRowClick, maxHeight
                     <tbody key={rowIndex}>
                         <tr
                             className="hover:bg-gray-100 cursor-pointer"
-                            onClick={() => onRowClick(rowIndex)}
+                            // onClick={() => onRowClick(rowIndex)}
+                            onClick={() => onRowClick && onRowClick(rowIndex)}
+
                         >
                             {headers.map((key, colIndex) => (
                                 <td key={colIndex} className="px-6 py-4 border-b">

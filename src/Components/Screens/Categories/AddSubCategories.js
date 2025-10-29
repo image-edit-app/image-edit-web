@@ -75,34 +75,20 @@ function AddSubCategories() {
             console.log("Failed to add subcategory");
         }
     };
-    // const validateSubCategory = () => {
-    //     const newErrors = {};
+    const validateSubCategory = () => {
+        const newErrors = {};
 
-    //     if (!subCategoryData.category.trim()) {
-    //         newErrors.category = "Please select a category";
-    //     }
+        // if (typeof subCategoryData.category !== "string" || !subCategoryData.category.trim()) {
+        //     newErrors.category = "Please select a category";
+        // }
 
-    //     if (!subCategoryData.name.trim()) {
-    //         newErrors.name = "Please enter subcategory name";
-    //     }
+        if (!subCategoryData.name.trim()) {
+            newErrors.name = "Please enter subcategory name";
+        }
 
-    //     setErrors(newErrors);
-    //     return Object.keys(newErrors).length === 0;
-    // };
-const validateSubCategory = () => {
-    const newErrors = {};
-
-    // if (typeof subCategoryData.category !== "string" || !subCategoryData.category.trim()) {
-    //     newErrors.category = "Please select a category";
-    // }
-
-    if (!subCategoryData.name.trim()) {
-        newErrors.name = "Please enter subcategory name";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-};
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const addSubCategory = () => {
         if (!validateSubCategory()) {
@@ -157,7 +143,7 @@ const validateSubCategory = () => {
                             setErrors(errors => ({ ...errors, category: "" }));
                         }}
                         dropdownClassName="w-[190px]"
-                        // error={errors.category}
+                    // error={errors.category}
                     />
                 </div>
                 <div className="mb-4">
