@@ -78,6 +78,12 @@ export default function Dashboard() {
     const handleAddTemplateClick = () => {
         navigate("/add-template");
     };
+    const handleScroll = (e) => {
+        const { scrollTop, scrollHeight, clientHeight } = e.target;
+        if (scrollTop + clientHeight >= scrollHeight - 5 && hasMore && !loading) {
+            getTemplateData({ category, subcategory, offset, isInitial: false });
+        }
+    };
     return (
         <div className="min-h-screen bg-gray-100 flex">
             <DashboardSideBar />
@@ -124,7 +130,7 @@ export default function Dashboard() {
                         />
                     </div>
                 </div>
-                <div className="grid grid-cols-5 gap-6 h-[70vh] overflow-y-auto">
+                <div  onScroll={handleScroll} className="grid grid-cols-5 gap-6 h-[70vh] overflow-y-auto">
                     {templates.map((cat, i) => (
                         <div key={i} className="cursor-pointer">
                             <CategoryCardComponent img={cat.url} />

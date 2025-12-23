@@ -3,7 +3,7 @@ function TableComponent({ headers, data, expandedRowIndex, onRowClick, maxHeight
     return (
         <div className={`w-full overflow-x-auto bg-white rounded-lg shadow relative ${maxHeight}`}>
             <table className="min-w-full table-auto text-left">
-                <thead className="sticky top-0 bg-gray-200 text-gray-700 z-10"> 
+                <thead className="sticky top-0 bg-gray-200 text-gray-700 z-10">
                     <tr>
                         {headers.map((header, index) => (
                             <th key={index} className="px-4 py-2 border-b capitalize">
@@ -25,7 +25,6 @@ function TableComponent({ headers, data, expandedRowIndex, onRowClick, maxHeight
                                 <td key={colIndex} className="px-6 py-4 border-b">
                                     {key === "Profile" ? (
                                         <img
-                                            // src={row[key]}
                                             src={row[key] || unknownUserImage}
                                             alt="Profile"
                                             className="w-10 h-10 rounded-full object-cover"
@@ -38,8 +37,8 @@ function TableComponent({ headers, data, expandedRowIndex, onRowClick, maxHeight
                         </tr>
                         {expandedRowIndex === rowIndex && (
                             <tr className="bg-gray-50">
-                                <td colSpan={headers.length} className="px-6 py-4 border-b">
-                                    <div className="text-sm space-y-1">
+                                <td colSpan={headers.length} className="px-6 py-4 border-b ">
+                                    <div className="text-sm space-y-1 flex justify-between items-center">
                                         <div><strong>DOB:</strong> {row["Dob"]}</div>
                                         <div><strong>Gender:</strong> {row["Gender"]}</div>
                                         <div><strong>Firm Name:</strong> {row["Firm Name"]}</div>

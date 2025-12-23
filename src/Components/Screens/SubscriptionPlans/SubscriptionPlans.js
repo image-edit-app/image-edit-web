@@ -43,7 +43,7 @@ function SubscriptionPlans() {
                     onClick={handleAddPlanClick}
                     buttonClassName="py-1 px-3 text-sm font-bold"
                 />
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-4 ">
                     {plans.map((plan, index) => (
                         <div
                             key={index}

@@ -57,7 +57,7 @@ function Categories() {
                     onClick={handleAddClick}
                     buttonClassName="py-1 px-3 text-sm font-bold"
                 />
-                <div className="w-full p-8">
+                <div className="w-full p-8 h-[84vh]">
                     <TableComponent
                         headers={headers}
                         data={categories}

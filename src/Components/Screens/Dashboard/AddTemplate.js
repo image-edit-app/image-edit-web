@@ -1,9 +1,11 @@
+import CustomDropdownComponent from "../../CustomComponents/CustomDropdownComponent/CustomDropdownComponent";
 import DropdownComponent from "../../CustomComponents/DropdownComponent/DropdownComponent";
 import InputComponents from "../../CustomComponents/InputComponents/InputComponents";
 import PrimaryButtonComponent from "../../CustomComponents/PrimaryButtonComponent/PrimaryButtonComponent";
 import { apiCall } from "../../Utils/AxiosUtils";
 import DashboardSideBar from "../DashboardSideBar/DashboardSideBar";
 import { useEffect, useState } from "react";
+import { FONT_FAMILY_OPTIONS } from "./Constants";
 function AddTemplate() {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedSubcategory, setSelectedSubcategory] = useState("");
@@ -16,6 +18,23 @@ function AddTemplate() {
     const [fontColor, setFontColor] = useState("");
     const [planOptions, setPlanOptions] = useState([]);
     const [errors, setErrors] = useState({});
+    const [isMultiImageBanner, setIsMultiImageBanner] = useState(false);
+    const [titleFont, setTitleFont] = useState({
+        family: "",
+        size: "",
+        color: ""
+    });
+    const [descFont, setDescFont] = useState({
+        family: "",
+        size: "",
+        color: ""
+    });
+    const [footerFont, setFooterFont] = useState({
+        family: "",
+        size: "",
+        color: ""
+    });
+
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -73,16 +92,15 @@ function AddTemplate() {
         if (!selectedSubcategory) {
             newErrors.subcategory = "Please select a subcategory.";
         }
-        if (!fontFamily.trim()) {
-            newErrors.fontFamily = "Please enter font family.";
-        }
-        if (!fontSize.trim()) {
-            newErrors.fontSize = "Please enter font size.";
-        }
-        if (!fontColor.trim()) {
-            newErrors.fontColor = "Please enter font color.";
-        }
-
+        // if (!fontFamily.trim()) {
+        //     newErrors.fontFamily = "Please enter font family.";
+        // }
+        // if (!fontSize.trim()) {
+        //     newErrors.fontSize = "Please enter font size.";
+        // }
+        // if (!fontColor.trim()) {
+        //     newErrors.fontColor = "Please enter font color.";
+        // }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -100,9 +118,11 @@ function AddTemplate() {
             categories: selectedCategory || "",
             sub_categories: selectedSubcategory || "",
             url: templateFileBase64 || "",
-            font_family: fontFamily,
-            font_size: fontSize,
-            font_color: fontColor,
+            title_font: titleFont,
+            description_font: descFont,
+            footer_font: footerFont,
+            isMultiImageBanner: isMultiImageBanner
+
         };
         apiCall({
             method: "POST",
@@ -210,51 +230,127 @@ function AddTemplate() {
                             labelClassName="font-serif font-bold"
                             error={errors.subcategory}
                         />
-                        <InputComponents
-                            type="text"
-                            label="Font Family"
-                            placeholder="Enter font family"
-                            value={fontFamily}
-                            // onChange={(e) => setFontFamily(e.target.value)}
-                            onChange={(e) => {
-                                setFontFamily(e.target.value);
-                                setErrors(errors => ({ ...errors, fontFamily: "" }));
-                            }}
-                            inputClassName="w-[80%]"
-                            labelClassName="font-serif font-bold"
-                            error={errors.fontFamily}
 
-                        />
-                        <InputComponents
-                            type="text"
-                            label="Font Size"
-                            placeholder="Enter font size"
-                            value={fontSize}
-                            // onChange={(e) => setFontSize(e.target.value)}
-                            onChange={(e) => {
-                                setFontSize(e.target.value);
-                                setErrors(errors => ({ ...errors, fontSize: "" }));
-                            }}
-                            inputClassName="w-[80%]"
-                            labelClassName="font-serif font-bold"
-                            error={errors.fontSize}
+                        <div className="flex items-center gap-2 mt-4">
+                            <input
+                                type="checkbox"
+                                checked={isMultiImageBanner}
+                                onChange={(e) => setIsMultiImageBanner(e.target.checked)}
+                            />
+                            <label className="font-serif font-bold">Multi-Image Template</label>
+                        </div>
+                        <div className="col-span-2">
+                            <div className="font-serif font-bold mb-2">Title</div>
+                            <div className="grid grid-cols-3 gap-4">
+                                <CustomDropdownComponent
+                                    label="Font Family"
+                                    options={FONT_FAMILY_OPTIONS}
+                                    value={titleFont.family}
+                                    onChange={(e) =>
+                                        setTitleFont({ ...titleFont, family: e.target.value })
+                                    }
+                                    className="w-[80%]"
+                                    labelClassName="font-serif font-bold"
+                                />
+                                <InputComponents
+                                    type="text"
+                                    label="Font Size"
+                                    placeholder="Enter font size"
+                                    value={titleFont.size}
+                                    onChange={(e) =>
+                                        setTitleFont({ ...titleFont, size: e.target.value })
+                                    }
+                                    inputClassName="w-[80%]"
+                                    labelClassName="font-serif font-bold"
+                                />
+                                <InputComponents
+                                    type="text"
+                                    label="Font Color"
+                                    placeholder="Enter font color"
+                                    value={titleFont.color}
+                                    onChange={(e) =>
+                                        setTitleFont({ ...titleFont, color: e.target.value })
+                                    }
+                                    inputClassName="w-[80%]"
+                                    labelClassName="font-serif font-bold"
+                                />
+                            </div>
+                        </div>
+                        <div className="col-span-2">
+                            <div className="font-serif font-bold mb-2">Description</div>
+                            <div className="grid grid-cols-3 gap-4">
+                                <CustomDropdownComponent
+                                    label="Font Family"
+                                    options={FONT_FAMILY_OPTIONS}
+                                    value={descFont.family}
+                                    onChange={(e) =>
+                                        setDescFont({ ...descFont, family: e.target.value })
+                                    }
+                                    className="w-[80%]"
+                                    labelClassName="font-serif font-bold"
+                                />
+                                <InputComponents
+                                    type="text"
+                                    label="Font Size"
+                                    placeholder="Enter font size"
+                                    value={descFont.size}
+                                    onChange={(e) =>
+                                        setDescFont({ ...descFont, size: e.target.value })
+                                    }
+                                    inputClassName="w-[80%]"
+                                    labelClassName="font-serif font-bold"
+                                />
+                                <InputComponents
+                                    type="text"
+                                    label="Font Color"
+                                    placeholder="Enter font color"
+                                    value={descFont.color}
+                                    onChange={(e) =>
+                                        setDescFont({ ...descFont, color: e.target.value })
+                                    }
+                                    inputClassName="w-[80%]"
+                                    labelClassName="font-serif font-bold"
+                                />
+                            </div>
+                        </div>
+                        <div className="col-span-2">
+                            <div className="font-serif font-bold mb-2">Footer</div>
+                            <div className="grid grid-cols-3 gap-4">
+                                <CustomDropdownComponent
+                                    label="Font Family"
+                                    options={FONT_FAMILY_OPTIONS}
+                                    value={footerFont.family}
+                                    onChange={(e) =>
+                                        setFooterFont({ ...footerFont, family: e.target.value })
+                                    }
+                                    className="w-[80%]"
+                                    labelClassName="font-serif font-bold"
+                                />
+                                <InputComponents
+                                    type="text"
+                                    label="Font Size"
+                                    placeholder="Enter font size"
+                                    value={footerFont.size}
+                                    onChange={(e) =>
+                                        setFooterFont({ ...footerFont, size: e.target.value })
+                                    }
+                                    inputClassName="w-[80%]"
+                                    labelClassName="font-serif font-bold"
+                                />
+                                <InputComponents
+                                    type="text"
+                                    label="Font Color"
+                                    placeholder="Enter font color"
+                                    value={footerFont.color}
+                                    onChange={(e) =>
+                                        setFooterFont({ ...footerFont, color: e.target.value })
+                                    }
+                                    inputClassName="w-[80%]"
+                                    labelClassName="font-serif font-bold"
+                                />
+                            </div>
+                        </div>
 
-                        />
-                        <InputComponents
-                            type="text"
-                            label="Font Color"
-                            placeholder="Enter font color"
-                            value={fontColor}
-                            // onChange={(e) => setFontColor(e.target.value)}
-                            onChange={(e) => {
-                                setFontColor(e.target.value);
-                                setErrors(errors => ({ ...errors, fontColor: "" }));
-                            }}
-                            inputClassName="w-[80%]"
-                            labelClassName="font-serif font-bold"
-                            error={errors.fontColor}
-
-                        />
                     </div>
                     <div className="flex justify-center mt-6">
                         <PrimaryButtonComponent
