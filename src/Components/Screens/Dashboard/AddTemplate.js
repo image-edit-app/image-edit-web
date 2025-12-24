@@ -13,27 +13,27 @@ function AddTemplate() {
     const [templateFileBase64, setTemplateFileBase64] = useState("");
     const [categoriesData, setCategoriesData] = useState([]);
     const [subcategoryOptions, setSubcategoryOptions] = useState([]);
-    const [fontFamily, setFontFamily] = useState("");
-    const [fontSize, setFontSize] = useState("");
-    const [fontColor, setFontColor] = useState("");
+    // const [fontFamily, setFontFamily] = useState("");
+    // const [fontSize, setFontSize] = useState("");
+    // const [fontColor, setFontColor] = useState("");
     const [planOptions, setPlanOptions] = useState([]);
     const [errors, setErrors] = useState({});
     const [isMultiImageBanner, setIsMultiImageBanner] = useState(false);
-    const [titleFont, setTitleFont] = useState({
-        family: "",
-        size: "",
-        color: ""
-    });
-    const [descFont, setDescFont] = useState({
-        family: "",
-        size: "",
-        color: ""
-    });
-    const [footerFont, setFooterFont] = useState({
-        family: "",
-        size: "",
-        color: ""
-    });
+    // const [titleFont, setTitleFont] = useState({
+    //     family: "",
+    //     size: "",
+    //     color: ""
+    // });
+    // const [descFont, setDescFont] = useState({
+    //     family: "",
+    //     size: "",
+    //     color: ""
+    // });
+    // const [footerFont, setFooterFont] = useState({
+    //     family: "",
+    //     size: "",
+    //     color: ""
+    // });
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -79,28 +79,16 @@ function AddTemplate() {
     }
     const validateTemplateData = () => {
         const newErrors = {};
-
-        if (!templateFileBase64) {
-            newErrors.template = "Please upload a template file.";
-        }
-        if (!selectedPlan) {
-            newErrors.plan = "Please select a plan.";
-        }
-        if (!selectedCategory) {
-            newErrors.category = "Please select a category.";
-        }
-        if (!selectedSubcategory) {
-            newErrors.subcategory = "Please select a subcategory.";
-        }
-        // if (!fontFamily.trim()) {
-        //     newErrors.fontFamily = "Please enter font family.";
-        // }
-        // if (!fontSize.trim()) {
-        //     newErrors.fontSize = "Please enter font size.";
-        // }
-        // if (!fontColor.trim()) {
-        //     newErrors.fontColor = "Please enter font color.";
-        // }
+        if (!templateFileBase64) newErrors.template = "Template file is required";
+        if (!selectedPlan) newErrors.plan = "Plan is required";
+        if (!selectedCategory) newErrors.category = "Category is required";
+        if (!selectedSubcategory) newErrors.subcategory = "Subcategory is required";
+        // if (!titleFont.family) newErrors.titleFamily = "Title font family is required";
+        // if (!titleFont.size) newErrors.titleSize = "Title font size is required";
+        // if (!titleFont.color) newErrors.titleColor = "Title font color is required";
+        // if (!descFont.family) newErrors.descFamily = "Description font family is required";
+        // if (!footerFont.family) newErrors.footerFamily = "Footer font family is required";
+        // if (!footerFont.color) newErrors.footerColor = "Footer font color required";
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -118,9 +106,9 @@ function AddTemplate() {
             categories: selectedCategory || "",
             sub_categories: selectedSubcategory || "",
             url: templateFileBase64 || "",
-            title_font: titleFont,
-            description_font: descFont,
-            footer_font: footerFont,
+            // title_font: titleFont,
+            // description_font: descFont,
+            // footer_font: footerFont,
             isMultiImageBanner: isMultiImageBanner
 
         };
@@ -180,7 +168,6 @@ function AddTemplate() {
                             <input
                                 type="file"
                                 name="template"
-                                // onChange={handleFileChange}
                                 onChange={(e) => {
                                     handleFileChange(e);
                                     setErrors(errors => ({ ...errors, template: "" }));
@@ -195,7 +182,6 @@ function AddTemplate() {
                             label="Plan"
                             options={planOptions}
                             value={selectedPlan}
-                            // onChange={setSelectedPlan}
                             onChange={(value) => {
                                 setSelectedPlan(value);
                                 setErrors(errors => ({ ...errors, plan: "" }));
@@ -208,7 +194,6 @@ function AddTemplate() {
                             label="Category"
                             options={categoriesData}
                             value={selectedCategory}
-                            // onChange={setSelectedCategory}
                             onChange={(value) => {
                                 setSelectedCategory(value);
                                 setErrors(errors => ({ ...errors, category: "" }));
@@ -221,7 +206,6 @@ function AddTemplate() {
                             label="Subcategory"
                             options={subcategoryOptions}
                             value={selectedSubcategory}
-                            // onChange={setSelectedSubcategory}
                             onChange={(value) => {
                                 setSelectedSubcategory(value);
                                 setErrors(errors => ({ ...errors, subcategory: "" }));
@@ -239,40 +223,46 @@ function AddTemplate() {
                             />
                             <label className="font-serif font-bold">Multi-Image Template</label>
                         </div>
-                        <div className="col-span-2">
+                        {/* <div className="col-span-2">
                             <div className="font-serif font-bold mb-2">Title</div>
                             <div className="grid grid-cols-3 gap-4">
                                 <CustomDropdownComponent
                                     label="Font Family"
                                     options={FONT_FAMILY_OPTIONS}
                                     value={titleFont.family}
-                                    onChange={(e) =>
-                                        setTitleFont({ ...titleFont, family: e.target.value })
-                                    }
+                                    onChange={(e) => {
+                                        setTitleFont({ ...titleFont, family: e.target.value });
+                                        setErrors(prev => ({ ...prev, titleFamily: "" }));
+                                    }}
                                     className="w-[80%]"
                                     labelClassName="font-serif font-bold"
+                                    error={errors.titleFamily}
                                 />
                                 <InputComponents
                                     type="text"
                                     label="Font Size"
                                     placeholder="Enter font size"
                                     value={titleFont.size}
-                                    onChange={(e) =>
-                                        setTitleFont({ ...titleFont, size: e.target.value })
-                                    }
+                                    onChange={(e) => {
+                                        setTitleFont({ ...titleFont, size: e.target.value });
+                                        setErrors(prev => ({ ...prev, titleSize: "" })); 
+                                    }}
                                     inputClassName="w-[80%]"
                                     labelClassName="font-serif font-bold"
+                                    error={errors.titleSize}
                                 />
                                 <InputComponents
                                     type="text"
                                     label="Font Color"
                                     placeholder="Enter font color"
                                     value={titleFont.color}
-                                    onChange={(e) =>
-                                        setTitleFont({ ...titleFont, color: e.target.value })
-                                    }
+                                    onChange={(e) => {
+                                        setTitleFont({ ...titleFont, color: e.target.value });
+                                        setErrors(prev => ({ ...prev, titleColor: "" })); 
+                                    }}
                                     inputClassName="w-[80%]"
                                     labelClassName="font-serif font-bold"
+                                    error={errors.titleColor}
                                 />
                             </div>
                         </div>
@@ -283,11 +273,13 @@ function AddTemplate() {
                                     label="Font Family"
                                     options={FONT_FAMILY_OPTIONS}
                                     value={descFont.family}
-                                    onChange={(e) =>
-                                        setDescFont({ ...descFont, family: e.target.value })
-                                    }
+                                    onChange={(e) => {
+                                        setDescFont({ ...descFont, family: e.target.value });
+                                        setErrors(prev => ({ ...prev, descFamily: "" }));
+                                    }}
                                     className="w-[80%]"
                                     labelClassName="font-serif font-bold"
+                                    error={errors.descFamily}
                                 />
                                 <InputComponents
                                     type="text"
@@ -320,11 +312,13 @@ function AddTemplate() {
                                     label="Font Family"
                                     options={FONT_FAMILY_OPTIONS}
                                     value={footerFont.family}
-                                    onChange={(e) =>
-                                        setFooterFont({ ...footerFont, family: e.target.value })
-                                    }
+                                    onChange={(e) => {
+                                        setFooterFont({ ...footerFont, family: e.target.value });
+                                        setErrors(prev => ({ ...prev, footerFamily: "" }));
+                                    }}
                                     className="w-[80%]"
                                     labelClassName="font-serif font-bold"
+                                    error={errors.footerFamily}
                                 />
                                 <InputComponents
                                     type="text"
@@ -342,14 +336,16 @@ function AddTemplate() {
                                     label="Font Color"
                                     placeholder="Enter font color"
                                     value={footerFont.color}
-                                    onChange={(e) =>
-                                        setFooterFont({ ...footerFont, color: e.target.value })
-                                    }
+                                    onChange={(e) => {
+                                        setFooterFont({ ...footerFont, color: e.target.value });
+                                        setErrors(prev => ({ ...prev, footerColor: "" }));
+                                    }}
                                     inputClassName="w-[80%]"
                                     labelClassName="font-serif font-bold"
+                                    error={errors.footerColor}
                                 />
                             </div>
-                        </div>
+                        </div> */}
 
                     </div>
                     <div className="flex justify-center mt-6">
