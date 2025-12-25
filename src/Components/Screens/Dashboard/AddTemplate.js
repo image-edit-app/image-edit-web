@@ -109,7 +109,7 @@ function AddTemplate() {
             // title_font: titleFont,
             // description_font: descFont,
             // footer_font: footerFont,
-            isMultiImageBanner: isMultiImageBanner
+            has_multiple_images: isMultiImageBanner
 
         };
         apiCall({
